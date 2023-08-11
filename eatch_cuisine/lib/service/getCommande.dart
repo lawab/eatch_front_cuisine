@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,9 +63,29 @@ class GetDataCommandeCuisineFuture extends ChangeNotifier {
                       .category!
                       .title !=
                   'Sodas') {
+                listCommandeWaited[i].menus![j].products![s].orderQte =
+                    listCommandeWaited[i].menus![j].orderQte;
                 listCommandeWaited[i]
                     .products!
                     .add(listCommandeWaited[i].menus![j].products![s]);
+              }
+            }
+          }
+        }
+        for (int i = 0; i < listCommandeWaited.length; i++) {
+          for (int j = 0; j < listCommandeWaited[i].products!.length; j++) {
+            if (listCommandeWaited[i].products![j].isNull == false) {
+              if (listCommandeWaited[i].products![j].category.isNull == false) {
+                if (listCommandeWaited[i].products![j].category!.title ==
+                        'Dessert' ||
+                    listCommandeWaited[i].products![j].category!.title ==
+                        'Jus' ||
+                    listCommandeWaited[i].products![j].category!.title ==
+                        'Sodas') {
+                  listCommandeWaited[i]
+                      .products!
+                      .remove(listCommandeWaited[i].products![j]);
+                }
               }
             }
           }
@@ -80,9 +101,30 @@ class GetDataCommandeCuisineFuture extends ChangeNotifier {
                       .category!
                       .title !=
                   'Sodas') {
+                listCommandeTraitement[i].menus![j].products![s].orderQte =
+                    listCommandeTraitement[i].menus![j].orderQte;
                 listCommandeTraitement[i]
                     .products!
                     .add(listCommandeTraitement[i].menus![j].products![s]);
+              }
+            }
+          }
+        }
+        for (int i = 0; i < listCommandeTraitement.length; i++) {
+          for (int j = 0; j < listCommandeTraitement[i].products!.length; j++) {
+            if (listCommandeTraitement[i].products![j].isNull == false) {
+              if (listCommandeTraitement[i].products![j].category.isNull ==
+                  false) {
+                if (listCommandeTraitement[i].products![j].category!.title ==
+                        'Dessert' ||
+                    listCommandeTraitement[i].products![j].category!.title ==
+                        'Jus' ||
+                    listCommandeTraitement[i].products![j].category!.title ==
+                        'Sodas') {
+                  listCommandeTraitement[i]
+                      .products!
+                      .remove(listCommandeTraitement[i].products![j]);
+                }
               }
             }
           }
@@ -108,6 +150,9 @@ class CommandeCuisine {
   String? createdAt;
   String? updatedAt;
   int? iV;
+  int? numTablette;
+  int? numOrder;
+  int? totaleCost;
 
   CommandeCuisine(
       {this.sId,
@@ -119,7 +164,10 @@ class CommandeCuisine {
       this.deletedAt,
       this.createdAt,
       this.updatedAt,
-      this.iV});
+      this.iV,
+      this.numTablette,
+      this.numOrder,
+      this.totaleCost});
 
   CommandeCuisine.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -142,6 +190,9 @@ class CommandeCuisine {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+    numTablette = json['numTablette'];
+    numOrder = json['numOrder'];
+    totaleCost = json['total_cost'];
   }
 
   Map<String, dynamic> toJson() {
@@ -160,6 +211,9 @@ class CommandeCuisine {
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
+    data['numTablette'] = this.numTablette;
+    data['numOrder'] = this.numOrder;
+    data['total_cost'] = this.totaleCost;
     return data;
   }
 }
@@ -174,6 +228,7 @@ class Products {
   String? devise;
   int? liked;
   int? likedPersonCount;
+  int? orderQte;
 
   Products(
       {this.recette,
@@ -184,7 +239,8 @@ class Products {
       this.promotion,
       this.devise,
       this.liked,
-      this.likedPersonCount});
+      this.likedPersonCount,
+      this.orderQte});
 
   Products.fromJson(Map<String, dynamic> json) {
     recette =
@@ -199,6 +255,7 @@ class Products {
     devise = json['devise'];
     liked = json['liked'];
     likedPersonCount = json['likedPersonCount'];
+    orderQte = json['orderQte'];
   }
 
   Map<String, dynamic> toJson() {
@@ -216,6 +273,7 @@ class Products {
     data['devise'] = this.devise;
     data['liked'] = this.liked;
     data['likedPersonCount'] = this.likedPersonCount;
+    data['orderQte'] = this.orderQte;
     return data;
   }
 }
@@ -223,7 +281,6 @@ class Products {
 class Menus {
   String? sId;
   String? menuTitle;
-
   int? price;
   String? devise;
   List<Products>? products;
@@ -232,6 +289,7 @@ class Menus {
   String? image;
   Null deletedAt;
   String? description;
+  int? orderQte;
 
   Menus(
       {this.sId,
@@ -243,7 +301,8 @@ class Menus {
       this.deScription,
       this.image,
       this.deletedAt,
-      this.description});
+      this.description,
+      this.orderQte});
 
   Menus.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -262,6 +321,7 @@ class Menus {
     image = json['image'];
     deletedAt = json['deletedAt'];
     description = json['description'];
+    orderQte = json['orderQte'];
   }
 
   Map<String, dynamic> toJson() {
@@ -279,6 +339,7 @@ class Menus {
     data['image'] = this.image;
     data['deletedAt'] = this.deletedAt;
     data['description'] = this.description;
+    data['orderQte'] = this.orderQte;
     return data;
   }
 }

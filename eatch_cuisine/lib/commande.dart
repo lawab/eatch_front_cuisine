@@ -98,7 +98,7 @@ class CommandeCuisineState extends ConsumerState<CommandeCuisineS> {
                                   width: 50,
                                   color: Colors.black,
                                   child: Text(
-                                    'N° ${index + 1}',
+                                    'N° ${listCommande[index].numOrder}',
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ),
@@ -125,15 +125,15 @@ class CommandeCuisineState extends ConsumerState<CommandeCuisineS> {
                                                 .length,
                                             itemBuilder: (context, indexx) {
                                               return Container(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                     right: 10, left: 10),
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      '${indexx + 1} - ${listCommande[index].products![indexx].productName!}',
-                                                      style: TextStyle(
+                                                      '${indexx + 1} - ${listCommande[index].products![indexx].productName!} x ${listCommande[index].products![indexx].orderQte == 0 ? 1 : listCommande[index].products![indexx].orderQte}',
+                                                      style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),
